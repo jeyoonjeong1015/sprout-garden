@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sprout Garden · Sight Words</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#FFF8E9; --card:#FFFFFF; --text:#28362A; --muted:#6B7A65;
+  --edge:#28362A; --shade:#1C2A1D;
+  --leaf:#3FA96A; --sun:#FFC53D; --berry:#FF7A8A; --sky:#49B4E0;
+  --on-leaf:#FFFFFF;
+  --f-head:"Baloo 2","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"Nunito","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#152018; --card:#1F2E22; --text:#EAF3EA; --muted:#9BB09B;
+    --edge:#8FBF9C; --shade:#0A120C;
+    --leaf:#57C387; --sun:#FFD469; --berry:#FF95A2; --sky:#6FC7EC;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#152018; --card:#1F2E22; --text:#EAF3EA; --muted:#9BB09B;
+  --edge:#8FBF9C; --shade:#0A120C;
+  --leaf:#57C387; --sun:#FFD469; --berry:#FF95A2; --sky:#6FC7EC;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--f-body);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:4px solid var(--sky);outline-offset:3px}
+
+.wrap{display:grid;grid-template-columns:minmax(0,560px) minmax(0,300px);gap:26px;justify-content:center;align-items:start;padding:20px 16px 48px;max-width:960px;margin:0 auto}
+@media (max-width:880px){.wrap{grid-template-columns:minmax(0,560px)}}
+
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.brand h1{font-family:var(--f-head);font-weight:800;font-size:30px;line-height:1.1;margin:0}
+.brand small{display:block;font-family:var(--f-body);font-weight:700;font-size:13px;color:var(--muted);margin-top:2px}
+.brand-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.home-btn{font-family:var(--f-head);font-weight:700;font-size:14px;background:var(--card);color:var(--text);border:3px solid var(--edge);border-radius:999px;padding:5px 12px;box-shadow:0 3px 0 var(--shade);white-space:nowrap}
+.stars{font-family:var(--f-head);font-weight:700;font-size:20px;background:var(--sun);color:#3A2B00;border:3px solid var(--edge);border-radius:999px;padding:5px 14px;box-shadow:0 3px 0 var(--shade);white-space:nowrap}
+
+.levels{display:flex;gap:8px;margin-bottom:18px}
+.lvl{flex:1;font-family:var(--f-head);font-weight:700;font-size:15px;background:var(--card);border:3px solid var(--edge);border-radius:18px;padding:10px 6px;box-shadow:0 4px 0 var(--shade);display:grid;justify-items:center;gap:2px}
+.lvl .ico{font-size:26px}
+.lvl small{font-family:var(--f-body);font-weight:700;color:var(--muted);font-size:11px}
+.lvl[aria-pressed="true"]{background:var(--leaf);color:var(--on-leaf)}
+.lvl[aria-pressed="true"] small{color:var(--on-leaf);opacity:.85}
+
+.screen{background:var(--card);border:3px solid var(--edge);border-radius:26px;box-shadow:0 7px 0 var(--shade);padding:22px}
+.back{background:none;border:0;font-weight:800;color:var(--muted);padding:0 0 10px;font-size:15px;font-family:var(--f-head)}
+h2{font-family:var(--f-head);font-weight:800;font-size:26px;line-height:1.25;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 16px;font-weight:700}
+
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:460px){.modes{grid-template-columns:1fr}}
+.mode{text-align:left;background:var(--paper);border:3px solid var(--edge);border-radius:20px;padding:16px;box-shadow:0 5px 0 var(--shade);display:grid;gap:4px}
+.mode:active,.btn:active,.opt:active,.tile:active{transform:translateY(3px);box-shadow:0 2px 0 var(--shade)}
+.mode .ico{font-size:36px;line-height:1}
+.mode b{font-family:var(--f-head);font-weight:800;font-size:19px}
+.mode span{font-size:13px;color:var(--muted);font-weight:700}
+
+.btn{font-family:var(--f-head);font-weight:700;font-size:18px;background:var(--sun);color:#3A2B00;border:3px solid var(--edge);border-radius:16px;padding:10px 20px;box-shadow:0 5px 0 var(--shade)}
+.btn.alt{background:var(--card);color:var(--text)}
+.btn.go{background:var(--leaf);color:var(--on-leaf)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+.dots{display:flex;gap:6px;margin:0 0 12px}
+.dots i{width:22px;height:9px;border-radius:99px;border:2.5px solid var(--edge);background:transparent}
+.dots i.on{background:var(--edge)}
+
+.card{min-height:230px;display:grid;place-items:center;text-align:center;background:var(--paper);border:3px dashed var(--edge);border-radius:22px;padding:22px;cursor:pointer}
+.card .ico{font-size:60px;line-height:1}
+.card .w{font-family:var(--f-head);font-weight:800;font-size:44px;margin-top:6px}
+.card .sent{font-size:19px;margin-top:10px}
+.card .sent b{color:var(--leaf)}
+.card .ko{color:var(--muted);font-weight:700;margin-top:4px}
+.card .tip{font-size:12px;color:var(--muted);margin-top:10px;font-weight:700}
+
+.prompt{text-align:center;margin:4px 0 18px}
+.prompt .ico{font-size:52px}
+.prompt .sent{font-size:20px;margin-top:6px}
+.prompt .sent b.blank{display:inline-block;min-width:64px;border-bottom:4px dotted var(--edge)}
+
+.choices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media (max-width:420px){.choices{grid-template-columns:1fr}}
+.opt{font-family:var(--f-head);font-weight:800;font-size:24px;background:var(--card);border:3px solid var(--edge);border-radius:18px;padding:16px 8px;box-shadow:0 5px 0 var(--shade)}
+.opt.off{opacity:.35;box-shadow:none}
+.opt.ok{background:var(--leaf);color:var(--on-leaf)}
+.opt.no{background:var(--berry);color:#3A0B12}
+.opt[disabled]{cursor:default}
+
+.hgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+@media (max-width:420px){.hgrid{grid-template-columns:repeat(3,1fr)}}
+.htile{font-family:var(--f-head);font-weight:800;font-size:16px;background:var(--card);border:3px solid var(--edge);border-radius:14px;padding:14px 4px;box-shadow:0 4px 0 var(--shade)}
+.htile.found{background:var(--leaf);color:var(--on-leaf);box-shadow:none}
+.htile.off{opacity:.3;box-shadow:none}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:420px){.grid{grid-template-columns:repeat(3,1fr)}}
+.mtile{aspect-ratio:1;font-family:var(--f-head);font-weight:800;font-size:16px;background:var(--sky);color:#06222E;border:3px solid var(--edge);border-radius:14px;box-shadow:0 4px 0 var(--shade);display:grid;place-items:center;padding:4px;text-align:center}
+.mtile.open{background:var(--card);color:var(--text)}
+.mtile.found{background:var(--leaf);color:var(--on-leaf);opacity:.7}
+
+.fb{margin-top:16px;border:3px solid var(--edge);border-radius:18px;padding:12px 14px;font-size:16px;font-weight:700}
+.fb b{font-family:var(--f-head);font-weight:800;font-size:19px;display:block;margin-bottom:2px}
+.fb.pos{background:color-mix(in srgb,var(--leaf) 22%,var(--card))}
+.fb.hint{background:color-mix(in srgb,var(--sky) 26%,var(--card))}
+.fb.exp{background:color-mix(in srgb,var(--berry) 24%,var(--card))}
+
+.panel{background:var(--card);border:3px solid var(--edge);border-radius:26px;box-shadow:0 7px 0 var(--shade);padding:18px}
+.panel h3{font-family:var(--f-head);font-weight:800;font-size:20px;margin:0 0 6px}
+.panel p{margin:0 0 10px;color:var(--muted);font-size:13px;font-weight:700}
+.progress{display:grid;gap:6px;margin-top:6px}
+.progress div{display:flex;justify-content:space-between;font-size:13px;border-top:1.5px solid color-mix(in srgb,var(--edge) 30%,transparent);padding-top:6px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main>
+    <div class="brand">
+      <div><h1>Sprout Garden</h1><small>Sight Words · Ages 5–7 · Prototype</small></div>
+      <div class="brand-right">
+        <button class="home-btn" data-a="home" aria-label="Home">🏠 Home</button>
+        <div class="stars" id="stars">⭐ 0</div>
+      </div>
+    </div>
+    <div class="levels" id="levels" role="group" aria-label="Choose a level"></div>
+    <section class="screen" id="screen" aria-live="polite"></section>
+  </main>
+  <aside class="panel" aria-label="For teachers and parents">
+    <h3>Today’s progress</h3>
+    <div class="progress" id="progress"></div>
+  </aside>
+</div>
+
+<script>
+'use strict';
+/* ---------- content ---------- */
+const LEVELS=[
+ {id:'basic',name:'Sprout',sub:'Starter',ico:'🌱'},
+ {id:'mid',name:'Tree',sub:'Beginner',ico:'🌳'},
+ {id:'adv',name:'Fruit',sub:'Advanced',ico:'🍎'}
+];
+const WORDS={
+ basic:[
+  {w:'I',ko:'나는',s:['','I',' see you.'],ico:'🙋'},
+  {w:'a',ko:'하나의',s:['I have ','a',' cat.'],ico:'🐱'},
+  {w:'the',ko:'그',s:['I like ','the',' dog.'],ico:'🐶'},
+  {w:'to',ko:'~으로',s:['I go ','to',' school.'],ico:'🏫'},
+  {w:'is',ko:'~이다',s:['This ','is',' fun.'],ico:'😄'},
+  {w:'see',ko:'보다',s:['I ','see',' a bird.'],ico:'🐦'},
+  {w:'my',ko:'나의',s:['This is ','my',' book.'],ico:'📖'},
+  {w:'like',ko:'좋아하다',s:['I ','like',' ice cream.'],ico:'🍦'}],
+ mid:[
+  {w:'you',ko:'너',s:['I like ','you','.'],ico:'🤗'},
+  {w:'they',ko:'그들은',s:['','They',' play outside.'],ico:'⚽'},
+  {w:'have',ko:'가지다',s:['I ','have',' a ball.'],ico:'🏀'},
+  {w:'said',ko:'말했다',s:['She ','said',' hello.'],ico:'👋'},
+  {w:'here',ko:'여기',s:['Come ','here','.'],ico:'📍'},
+  {w:'with',ko:'~와 함께',s:['I play ','with',' you.'],ico:'🎈'},
+  {w:'was',ko:'~였다',s:['It ','was',' fun.'],ico:'🎉'},
+  {w:'this',ko:'이것',s:['','This',' is my toy.'],ico:'🧸'}],
+ adv:[
+  {w:'because',ko:'왜냐하면',s:['I run ','because',' I\u2019m happy.'],ico:'🏃'},
+  {w:'could',ko:'~할 수 있었다',s:['I ','could',' jump high.'],ico:'🦘'},
+  {w:'every',ko:'매 ~마다',s:['I read ','every',' day.'],ico:'📚'},
+  {w:'again',ko:'다시',s:["Let's try ",'again','.'],ico:'🔁'},
+  {w:'always',ko:'항상',s:['I ','always',' smile.'],ico:'😊'},
+  {w:'been',ko:'~해 왔다',s:['I have ','been',' good.'],ico:'🌟'},
+  {w:'does',ko:'~하다',s:['She ','does',' her best.'],ico:'💪'},
+  {w:'together',ko:'함께',s:['We work ','together','.'],ico:'🤝'}]
+};
+
+/* ---------- state ---------- */
+const S={level:'basic',view:'home',stars:0,tally:{},meet:null,ls:null,hunt:null,match:null};
+const $=id=>document.getElementById(id);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+const hasBatchim=w=>{const c=w[w.length-1],code=c.charCodeAt(0);if(code<0xAC00||code>0xD7A3)return false;return (code-0xAC00)%28!==0;};
+const josa=(w,withB,withoutB)=>hasBatchim(w)?withB:withoutB;
+const WORD_PARTICLE={again:'은',been:'은'};
+const wordJosa=w=>WORD_PARTICLE[w]||'는';
+function speak(text,rate){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-US'; u.rate=rate||0.85;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function addStars(n){S.stars+=n;}
+function tally(k){S.tally[k]=(S.tally[k]||0)+1;}
+
+/* ---------- navigation ---------- */
+function go(view){
+  S.view=view;
+  const list=WORDS[S.level];
+  if(view==='meet') S.meet={i:0,done:false};
+  if(view==='listen') S.ls=mkRound('ls',list);
+  if(view==='hunt') S.hunt=mkHunt(list);
+  if(view==='match') S.match=mkMatch(list);
+  render();
+  if(view==='listen') setTimeout(()=>speak(curTarget().w),250);
+}
+function mkRound(kind,list){
+  return {kind,order:shuffle(list.map((_,i)=>i)),i:0,attempt:0,off:[],done:false,fb:null,hintUsed:false,end:false,correct:0};
+}
+function mkHunt(list){
+  const order=shuffle(list.map((_,i)=>i));
+  return {order,i:0,round:mkHuntRound(list[order[0]],list,S.level),end:false,correct:0,mistakes:0};
+}
+function mkHuntRound(target,list,level){
+  const copies=level==='adv'?4:3;
+  const gridSize=level==='basic'?8:(level==='mid'?10:12);
+  const decoysNeeded=gridSize-copies;
+  const others=list.filter(x=>x.w!==target.w);
+  let pool=shuffle(others);
+  if(level==='adv'){
+    const sameLetter=others.filter(o=>o.w[0].toLowerCase()===target.w[0].toLowerCase());
+    if(sameLetter.length) pool=shuffle(sameLetter.concat(pool));
+  }
+  const decoys=[]; for(let k=0;k<decoysNeeded;k++) decoys.push(pool[k%pool.length]);
+  const items=shuffle(
+    Array.from({length:copies},()=>({w:target.w,isTarget:true}))
+    .concat(decoys.map(d=>({w:d.w,isTarget:false})))
+  );
+  return {tiles:items.map((it,id)=>({id,w:it.w,isTarget:it.isTarget,found:false,off:false})),needed:copies,found:0,wrong:0,fb:null,done:false,hintUsed:false};
+}
+function curTarget(){
+  const st=S.view==='listen'?S.ls:S.hunt, list=WORDS[S.level];
+  return list[st.order[st.i]];
+}
+function choicesFor(target,list,n){
+  const others=list.filter(x=>x.w!==target.w);
+  const picks=shuffle(others).slice(0,n-1);
+  return shuffle([target,...picks]);
+}
+function mkMatch(list){
+  const four=shuffle(list).slice(0,4);
+  const tiles=shuffle(four.concat(four)).map((w,i)=>({id:i,w:w.w,open:false,found:false}));
+  return {tiles,openIds:[],moves:0,foundN:0,busy:false,end:false};
+}
+
+/* ---------- feedback core (graded by level) ---------- */
+function onCorrect(st,label){
+  addStars(st.attempt?1:2);
+  st.correct=(st.correct||0)+1; st.done=true;
+  const praise=S.level==='basic'?['정말 잘했어요! 🎉','최고예요! 🌟','바로 맞혔어요! 👏']:['맞았어요! 잘 찾았어요 🎉','정확해요! 👏'];
+  st.fb={k:'pos',h:praise[Math.floor(Math.random()*praise.length)],b:'"'+esc(curTarget().w)+'"'+wordJosa(curTarget().w)+' "'+esc(label)+'"'+josa(label,'이라는','라는')+' 뜻이에요.'};
+  tally('positive');
+  speak('Great job! '+curTarget().w);
+}
+function onWrong(st,pickedLabel){
+  st.attempt++;
+  const target=curTarget();
+  if(S.level==='basic'){
+    // always gentle, never explicit "wrong", unlimited soft retries
+    st.fb={k:'pos',h:'괜찮아요, 다시 들어볼까요? 🌱',b:'소리를 잘 듣고 다시 골라 봐요.'};
+    tally('positive');
+    speak(target.w,0.65);
+  }else if(S.level==='mid'){
+    if(st.attempt===1){
+      st.fb={k:'hint',h:'다시 들어볼까요? 👂',b:'한 번 더 들려줄게요.'};
+      tally('recast'); speak(target.w,0.65);
+    }else{
+      st.fb={k:'exp',h:'정답을 알려줄게요!',b:'"'+esc(target.w)+'"'+wordJosa(target.w)+' "'+esc(target.ko)+'"'+josa(target.ko,'이라는','라는')+' 뜻이에요.'};
+      st.done=true; tally('explicit'); speak(target.w);
+    }
+  }else{ // adv — never hand over the full answer, only nudge with the first sound
+    st.fb={k:'hint',h:'다시 생각해봐요! 🤔',b:'첫 글자가 "'+esc(target.w[0].toUpperCase())+'"예요. 소리를 떠올리며 다시 골라봐요.'};
+    tally('preempt'); speak(target.w[0],0.7);
+  }
+}
+function revealHint(st){
+  if(st.hintUsed||st.done) return;
+  st.hintUsed=true;
+  const target=curTarget();
+  st.fb={k:'hint',h:'💡 힌트',b:'첫 글자는 "'+esc(target.w[0].toUpperCase())+'"예요.'};
+  tally('preempt');
+}
+function roundNext(){
+  if(S.view==='listen'){
+    const st=S.ls;
+    if(st.i+1>=st.order.length){st.end=true;return;}
+    st.i++; st.attempt=0; st.off=[]; st.done=false; st.fb=null; st.hintUsed=false;
+    setTimeout(()=>speak(curTarget().w),250);
+  }else if(S.view==='hunt'){
+    const st=S.hunt, list=WORDS[S.level];
+    if(st.i+1>=st.order.length){st.end=true;return;}
+    st.i++; st.round=mkHuntRound(list[st.order[st.i]],list,S.level);
+  }
+}
+
+/* ---------- game actions ---------- */
+function lsPick(idx,label){
+  const st=S.ls, target=curTarget();
+  if(st.done) return;
+  if(label===target.w) onCorrect(st,target.ko); else {st.off.push(idx); onWrong(st,label);}
+}
+function huntTileTap(id){
+  const st=S.hunt, round=st.round, target=curTarget();
+  if(round.done) return;
+  const tile=round.tiles.find(t=>t.id===id);
+  if(!tile||tile.found||tile.off) return;
+  if(tile.isTarget){
+    tile.found=true; round.found++; addStars(1); tally('positive');
+    const praise=S.level==='basic'?['찾았어요! 🎉','바로 찾았네요! 🌟']:['정확해요! 👏','잘 찾았어요! 🎉'];
+    round.fb={k:'pos',h:praise[Math.floor(Math.random()*praise.length)],b:round.found+' / '+round.needed+' 찾았어요'};
+    speak(target.w,0.9);
+    if(round.found>=round.needed){ round.done=true; st.correct++; }
+  }else{
+    round.wrong++; st.mistakes++;
+    if(S.level==='basic'){
+      round.fb={k:'pos',h:'괜찮아요! 다른 낱말이에요 🌱',b:'같은 모양을 다시 찾아볼까요?'};
+      tally('positive');
+    }else if(S.level==='mid'){
+      tile.off=true;
+      round.fb={k:'hint',h:'앗, 다른 낱말이에요 👂',b:'소리를 다시 들려줄게요.'};
+      speak(target.w,0.7); tally('recast');
+    }else{
+      tile.off=true;
+      round.fb={k:'exp',h:'"'+esc(tile.w)+'"',b:'다른 낱말이에요. 첫 글자가 "'+esc(target.w[0].toUpperCase())+'"인 칸을 찾아봐요.'};
+      tally('explicit');
+    }
+  }
+}
+function matchFlip(id){
+  const m=S.match; if(m.busy||m.end) return;
+  const t=m.tiles.find(x=>x.id===id);
+  if(!t||t.open||t.found) return;
+  t.open=true; speak(t.w,0.8); m.openIds.push(id);
+  if(m.openIds.length===2){
+    m.moves++; m.busy=true;
+    const [a,b]=m.openIds.map(i=>m.tiles.find(x=>x.id===i));
+    if(a.w===b.w){
+      a.found=b.found=true; m.foundN++; addStars(1); tally('positive');
+      m.openIds=[]; m.busy=false;
+      if(m.foundN===m.tiles.length/2) m.end=true;
+      render();
+    }else{
+      render();
+      setTimeout(()=>{a.open=b.open=false;m.openIds=[];m.busy=false;render();},700);
+    }
+  }
+}
+
+/* ---------- views ---------- */
+function vHome(){
+  return `<h2>What shall we play today?</h2>
+  <p class="lead">Look, listen, and get to know sight words like a picture book.</p>
+  <div class="modes">
+    <button class="mode" data-a="go" data-v="meet"><span class="ico">📖</span><b>Meet the Words</b><span>See it, hear it, learn it</span></button>
+    <button class="mode" data-a="go" data-v="listen"><span class="ico">👂</span><b>Listen &amp; Tap</b><span>Hear the word, pick it out</span></button>
+    <button class="mode" data-a="go" data-v="hunt"><span class="ico">🔎</span><b>Word Hunt</b><span>Find every matching word on screen</span></button>
+    <button class="mode" data-a="go" data-v="match"><span class="ico">🍀</span><b>Memory Match</b><span>Match the word cards</span></button>
+  </div>`;
+}
+function vMeet(){
+  const m=S.meet, list=WORDS[S.level];
+  if(m.done) return `<button class="back" data-a="home">◀ Home</button><h2>You met all ${list.length} words! 🌼</h2>
+   <div class="row"><button class="btn go" data-a="go" data-v="listen">Go to Listen &amp; Tap</button><button class="btn alt" data-a="go" data-v="meet">Once more</button></div>`;
+  const c=list[m.i], dots=list.map((_,i)=>`<i class="${i<=m.i?'on':''}"></i>`).join('');
+  return `<button class="back" data-a="home">◀ Home</button><div class="dots">${dots}</div>
+  <div class="card" data-a="meet-hear" tabindex="0" role="button" aria-label="Listen to the word">
+    <div class="ico">${c.ico}</div><div class="w">${esc(c.w)}</div>
+    <div class="sent">${esc(c.s[0])}<b>${esc(c.s[1])}</b>${esc(c.s[2]||'')}</div>
+    <div class="ko">${esc(c.ko)}</div><div class="tip">Tap to hear it 🔊</div>
+  </div>
+  <div class="row"><button class="btn go" data-a="meet-next">Next word 🌿</button></div>`;
+}
+function vListen(){
+  const st=S.ls, list=WORDS[S.level];
+  if(st.end) return `<button class="back" data-a="home">◀ Home</button><h2>Listen &amp; Tap complete! 🎉</h2>
+   <p class="lead">You got ${st.correct} out of ${list.length} right.</p>
+   <div class="row"><button class="btn go" data-a="go" data-v="listen">Play again</button><button class="btn alt" data-a="home">Home</button></div>`;
+  const target=curTarget();
+  if(!st.choices||st.choicesI!==st.i){st.choices=choicesFor(target,list,3);st.choicesI=st.i;}
+  const dots=st.order.map((_,i)=>`<i class="${i<=st.i?'on':''}"></i>`).join('');
+  const body=`<div class="choices">${st.choices.map((c,i)=>{
+      let cls='opt'; if(st.off.includes(i)) cls+=' off'; if(st.done&&c.w===target.w&&S.level!=='basic') cls+=' ok';
+      return `<button class="${cls}" data-a="ls-pick" data-v="${i}" data-w="${esc(c.w)}" ${(st.done||st.off.includes(i))?'disabled':''}>${esc(c.w)}</button>`;
+    }).join('')}</div>`;
+  const hintBtn=S.level==='mid'&&!st.done?`<button class="btn alt" data-a="round-hint">💡 Hint</button>`:'';
+  return `<button class="back" data-a="home">◀ Home</button><div class="dots">${dots}</div>
+  <div class="prompt"><div class="ico">${target.ico}</div><div class="sent">Which word do you hear? 🔊</div></div>
+  ${body}
+  ${st.fb?`<div class="fb ${st.fb.k}" role="status"><b>${st.fb.h}</b>${st.fb.b}</div>`:''}
+  <div class="row"><button class="btn alt" data-a="round-hear">🔊 Listen again</button>${hintBtn}${st.done?`<button class="btn go" data-a="round-next">Next ➡️</button>`:''}</div>`;
+}
+function vHunt(){
+  const st=S.hunt, list=WORDS[S.level];
+  if(st.end) return `<button class="back" data-a="home">◀ Home</button><h2>Word Hunt complete! 🎉</h2>
+   <p class="lead">You found all ${list.length} words. Mix-ups: ${st.mistakes}.</p>
+   <div class="row"><button class="btn go" data-a="go" data-v="hunt">Play again</button><button class="btn alt" data-a="home">Home</button></div>`;
+  const round=st.round, target=curTarget();
+  const dots=st.order.map((_,i)=>`<i class="${i<=st.i?'on':''}"></i>`).join('');
+  const hintBtn=S.level==='mid'&&!round.done?`<button class="btn alt" data-a="round-hint">💡 Hint</button>`:'';
+  return `<button class="back" data-a="home">◀ Home</button><div class="dots">${dots}</div>
+  <div class="prompt"><div class="ico">${target.ico}</div>
+    <div style="font-family:var(--f-head);font-weight:800;font-size:32px">${esc(target.w)}</div>
+    <div class="sent">Find this word everywhere on the screen (${round.found}/${round.needed})</div></div>
+  <div class="hgrid">${round.tiles.map(t=>{
+      let cls='htile'; if(t.found) cls+=' found'; if(t.off) cls+=' off';
+      return `<button class="${cls}" data-a="hunt-tile" data-v="${t.id}" ${(t.found||t.off)?'disabled':''}>${esc(t.w)}</button>`;
+    }).join('')}</div>
+  ${round.fb?`<div class="fb ${round.fb.k}" role="status"><b>${round.fb.h}</b>${round.fb.b}</div>`:''}
+  <div class="row"><button class="btn alt" data-a="round-hear">🔊 Listen</button>${hintBtn}${round.done?`<button class="btn go" data-a="round-next">Next word ➡️</button>`:''}</div>`;
+}
+function vMatch(){
+  const m=S.match, list=WORDS[S.level];
+  if(m.end) return `<button class="back" data-a="home">◀ Home</button><h2>You matched them all! 🍀</h2>
+   <p class="lead">Finished in ${m.moves} tries.</p>
+   <div class="row"><button class="btn go" data-a="go" data-v="match">Play again</button><button class="btn alt" data-a="home">Home</button></div>`;
+  return `<button class="back" data-a="home">◀ Home</button><h2>Find the matching word cards</h2><p class="lead">Flip two cards to find a match.</p>
+  <div class="grid">${m.tiles.map(t=>`<button class="mtile ${t.found?'found':(t.open?'open':'')}" data-a="match-flip" data-v="${t.id}" ${(t.open||t.found)?'disabled':''}>${(t.open||t.found)?esc(t.w):'🌱'}</button>`).join('')}</div>`;
+}
+
+/* ---------- shell ---------- */
+function renderShell(){
+  $('stars').textContent='⭐ '+S.stars;
+  $('levels').innerHTML=LEVELS.map(l=>`<button class="lvl" data-a="level" data-v="${l.id}" aria-pressed="${S.level===l.id}"><span class="ico">${l.ico}</span>${l.name}<small>${l.sub}</small></button>`).join('');
+  const t=S.tally;
+  $('progress').innerHTML=`<div><span>⭐ Stars earned</span><b>${S.stars}</b></div><div><span>Positive nudges</span><b>${t.positive||0}</b></div><div><span>Replays given</span><b>${t.recast||0}</b></div><div><span>Explanations given</span><b>${t.explicit||0}</b></div>`;
+}
+function render(){
+  const v={home:vHome,meet:vMeet,listen:vListen,hunt:vHunt,match:vMatch}[S.view]();
+  $('screen').innerHTML=v;
+  renderShell();
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-a]'); if(!el) return;
+  const a=el.dataset.a, v=el.dataset.v, w=el.dataset.w;
+  if(a==='home') S.view='home';
+  else if(a==='go') return go(v);
+  else if(a==='level'){S.level=v; if(S.view!=='home') return go(S.view); }
+  else if(a==='meet-hear') {speak(WORDS[S.level][S.meet.i].w);return;}
+  else if(a==='meet-next'){
+    if(S.meet.i+1>=WORDS[S.level].length) S.meet.done=true; else S.meet.i++;
+  }
+  else if(a==='ls-pick') lsPick(+v,w);
+  else if(a==='hunt-tile') huntTileTap(+v);
+  else if(a==='round-hear') {speak(curTarget().w,0.75);return;}
+  else if(a==='round-hint') revealHint(S.view==='listen'?S.ls:S.hunt.round);
+  else if(a==='round-next') roundNext();
+  else if(a==='match-flip') return matchFlip(+v);
+  render();
+});
+document.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ') && e.target.matches('.card')){e.preventDefault();speak(WORDS[S.level][S.meet.i].w);}
+});
+render();
+</script>
+</body>
+</html>
